@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: react
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/healthcheck-path: /  
+    alb.ingress.kubernetes.io/subnets: 'subnet-0ae42b044558b9051, subnet-07b65957373e5c388'
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+  labels:
+    app: react-app
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: react-app-service  
+                port:
+                  number: 80 
